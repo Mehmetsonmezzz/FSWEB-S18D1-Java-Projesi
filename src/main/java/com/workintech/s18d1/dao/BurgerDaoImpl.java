@@ -31,7 +31,7 @@ public class BurgerDaoImpl implements BurgerDao{
     @Override
     public List<Burger> findAll() {
 
-       TypedQuery<Burger> foundAll= entityManager.createQuery("SELECT B FROM Burger b",Burger.class);
+       TypedQuery<Burger> foundAll= entityManager.createQuery("SELECT b FROM Burger b",Burger.class);
 
         return foundAll.getResultList();
     }
@@ -56,7 +56,7 @@ public class BurgerDaoImpl implements BurgerDao{
     @Override
     public Burger remove(long id) {
        Burger foundBurger= findById(id);
-       entityManager.merge(foundBurger);
+       entityManager.remove(foundBurger);
         return foundBurger;
     }
 
@@ -77,8 +77,8 @@ public class BurgerDaoImpl implements BurgerDao{
     @Override
     public List<Burger> findByContent(String content) {
 
-      TypedQuery<Burger> query=  entityManager.createQuery("SELECT b FROM Burger b WHERE b.contents like CONCAT('%',:content,'%') ORDER BY b.name", Burger.class);
-     query.setParameter("Content",content);
+      TypedQuery<Burger> query=  entityManager.createQuery("SELECT b FROM Burger b where b.contents like CONCAT('%', :content,'%') ORDER BY b.name", Burger.class);
+     query.setParameter("content",content);
      return query.getResultList();
     }
 }
